@@ -458,6 +458,12 @@ static esp_err_t cdc_acm_find_and_open_usb_device(uint16_t vid, uint16_t pid,
       const usb_device_desc_t *device_desc;
       ESP_ERROR_CHECK(
           usb_host_get_device_descriptor(current_device, &device_desc));
+      // TODO: remove this for production code
+      if (vid == 0 && pid == 0) {
+        // Return path 2 if VID and PID are 0:
+        (*dev)->dev_hdl = current_device;
+        return ESP_OK;
+      }
       if (device_desc->idVendor == vid && device_desc->idProduct == pid) {
         // Return path 2:
         (*dev)->dev_hdl = current_device;
