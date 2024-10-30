@@ -163,22 +163,27 @@ esp_err_t usb_serial_deinit() {
 }
 
 esp_err_t usb_serial_init() {
-  usb_phy_config_t phy_config = {
-      .controller = USB_PHY_CTRL_OTG,
-      .target = USB_PHY_TARGET_INT,
-      .otg_mode = USB_OTG_MODE_HOST,
-      .otg_speed =
-          USB_PHY_SPEED_UNDEFINED,  // In Host mode, the speed is determined by
-                                    // the connected device
-      // .ext_io_conf = NULL,
-      // .otg_io_conf = NULL,
-  };
-  if (ESP_OK != usb_new_phy(&phy_config, &phy_hdl)) {
-    ESP_LOGE("USB_SERIAL","Failed to init USB PHY");
-  }
+  // usb_phy_config_t phy_config = {
+  //     .controller = USB_PHY_CTRL_OTG,
+  //     .target = USB_PHY_TARGET_INT,
+  //     .otg_mode = USB_OTG_MODE_HOST,
+  //     .otg_speed =
+  //         USB_PHY_SPEED_UNDEFINED,  // In Host mode, the speed is determined by
+  //                                   // the connected device
+  //     // .ext_io_conf = NULL,
+  //     // .otg_io_conf = NULL,
+  // };
+  // if (ESP_OK != usb_new_phy(&phy_config, &phy_hdl)) {
+  //   ESP_LOGE("USB_SERIAL","Failed to init USB PHY");
+  // }
+
+  // const usb_host_config_t host_config = {
+  //     .skip_phy_setup = true,
+  //     .intr_flags = ESP_INTR_FLAG_LEVEL1,
+  // };
 
   const usb_host_config_t host_config = {
-      .skip_phy_setup = true,
+      .skip_phy_setup = false,
       .intr_flags = ESP_INTR_FLAG_LEVEL1,
   };
   // Install USB Host driver. Should only be called once in entire application
